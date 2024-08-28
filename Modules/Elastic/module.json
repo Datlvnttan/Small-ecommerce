@@ -1,0 +1,11 @@
+{
+    "name": "Elastic",
+    "alias": "elastic",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Elastic\\Providers\\ElasticServiceProvider"
+    ],
+    "files": []
+}

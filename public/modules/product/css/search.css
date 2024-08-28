@@ -1,0 +1,48 @@
+.modal-body-specifications-filter,
+.modal-body-seller-filter{
+    max-height: 600px;
+    overflow-y: auto;
+}
+.specification-name,
+.seller-name-initial {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px dashed #c2c2c2;
+    padding: 10px 0px;
+    gap: 10px;
+}
+
+.seller-name-initial .char-initial {
+    position: absolute;
+    background-color: white;
+    padding: 0px 5px;
+    color: crimson;
+    top: -15px;
+    left: 0;
+}
+
+.check-specification-value,
+.check-seller-name-initial {
+    margin: 5px;
+}
+
+.seller-name-group-total-quantity-product {
+    color: #716f6f;
+}
+
+.check-specification-value label,
+.check-seller-name-initial label{
+    cursor: pointer;
+    /* white-space: nowrap; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.form-check-specification-name{
+    position: absolute;
+    background-color: white;
+    padding: 0px 5px;
+    color: crimson;
+    top: -15px;
+    left: 0;
+}

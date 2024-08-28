@@ -1,0 +1,124 @@
+.box-order-list{
+    min-height: 700px;
+}
+.box-order{
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-bottom: 20px; 
+}
+.item-order-header{
+    border-bottom: 1px solid #000; 
+    position: relative; 
+    padding: 20px;      
+    background-color: var(--grey);
+}
+.item-order-header-left{
+    float: left;
+}
+.item-order-header-right{
+    float: right;
+}
+.item-order-shop-name{
+    font-size: 22px;
+}
+.btn-order-shop-access,
+.btn-order-shop-chat{
+    border-radius: 3px;
+    background-color: white;
+    border: 1px solid #000;
+    transition: all 0.3s;
+    margin: 0 5px;
+}
+.btn-order-shop-chat:hover{
+    background-color: #000;
+    color: #fff;
+}
+.btn-order-shop-access{
+    color: #0b3af8f8;
+    border: 1px solid #0b3af8f8;
+}
+.btn-order-shop-access:hover{
+    background-color: #0b3af8f8;
+    color: #000;
+}
+.item-order-shop-status{
+    font-size: 15px;
+    color: rgb(0, 5, 138)f8;
+}
+.item-order-content{
+    padding: 0 15px;
+}
+.item-order-product{
+    border-top: 1px solid #e0dddd;
+    padding-top: 5px;
+    margin-bottom: 10px;
+    margin-top:2px;
+}
+.image-product{
+    min-height: 100px;
+    width: 100%;
+}
+.item-product-name{
+    font-size: 18px;
+}
+.item-product-classify{
+    margin-left:10px; 
+    color: #4b4b4b;
+}
+.item-product-quantity{
+    margin-left:10px; 
+    color: #AAAAAA;
+}
+.item-product-price{
+    float: right;
+}
+.item-order-footer{
+    position: relative;
+    padding: 0 20px; 
+    padding-bottom:20px;
+    padding: 10 10px;
+
+}
+.item-order-footer-left{
+    float: left;
+    
+}
+.item-order-footer-left 
+.item-order-footer-left-review{
+    color: #aaaaaa;
+    font-size: 14px;
+}
+.item-order-footer-right{
+    float: right;       
+}
+.btn-order-repurchase{
+    border-radius: 5px;
+    background-color: crimson;
+    padding: 5 15px;
+    margin: 0 10px;
+    color: white;
+    border: 1px solid #000;
+}
+.btn-order-repurchase:hover{
+    background-color: rgb(216, 65, 96);
+}
+.btn-order-detail{
+    border-radius: 5px;
+    background-color: rgb(107, 107, 107);
+    color: white;
+    padding: 5 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: 1px solid #000; 
+    padding: 5px;
+}
+.btn-order-detail:hover{
+    background-color: rgb(117, 117, 117);
+}
+.item-product-total{
+    font-size: 20px;
+    color: crimson;
+}
+.item-order-footer-left-payment-method{
+    color: deepskyblue;
+}

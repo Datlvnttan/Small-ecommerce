@@ -1,0 +1,9 @@
+@extends('elastic::layouts.master')
+
+@section('content')
+    <h1>Hello World</h1>
+
+    <p>
+        This view is loaded from module: {!! config('elastic.name') !!}
+    </p>
+@endsection

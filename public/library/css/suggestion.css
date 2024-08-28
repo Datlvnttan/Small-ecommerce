@@ -1,0 +1,163 @@
+
+::selection{
+    color: #fff;
+    background: #664AFF;
+  }
+  
+  /* .wrapper{
+    max-width: 450px;
+    margin: 150px auto;
+  } */
+  
+  .custom-search-input .search-input{
+    background: #fff;
+    width: 100%;
+    /* border-radius: 5px; */
+    position: relative;
+    /* box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12); */
+  }
+
+  
+  .search-input input{
+    height: 55px;
+    width: 100%;
+    outline: none;
+    border: none;
+    /* border-radius: 5px; */
+    padding: 0 60px 0 20px;
+    font-size: 18px;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+  }
+  
+  .search-input.active input{
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .search-input .autocom-box{
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  
+  .search-input.active .autocom-box{
+    padding: 10px 8px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .autocom-box .autocom-box-option{
+    border-bottom: 1px solid #f1f1f1;
+  }
+  .autocom-box li{
+    list-style: none;
+    padding: 12px;
+    display: none;
+    width: 100%;
+    cursor: default;
+    border-radius: 3px;
+    margin-left: 0px;
+  }
+  
+  .search-input.active .autocom-box li{
+    display: block;
+  }
+  .autocom-box li:hover{
+    background: #efefef;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .tags-input {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.tags-input .tag {
+    background: #e9ecef;
+    padding: 2px 5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 2.5px 0px 2.5px 5px;
+    
+}
+.tags-input .search-box{
+    min-width: 300px;
+}
+.tags-input .tag .remove-tag {
+    cursor: pointer;
+    font-size: 20px;
+}
+.tags-input .tag{
+    border: 1px solid #ced4da !important;
+    background: #e9ecef;
+    font-size: 14px;
+    float: left;
+    color: #fff;
+}
+#suggestions-box{
+    max-width: 300px;
+    /* padding: 5px; */
+    position: relative; display: block;
+}
+
+.suggest-box{
+  position: relative;
+  display: block;
+  cursor: pointer !important;
+}
+.suggest-title{
+  border: 1px solid none;
+  display: block;
+  position: relative;
+  float: left;
+  padding: 2px 5px;
+  border-radius: 4px;
+  top: -3px;
+  color: #fff;
+ 
+}
+.box-tag .tag.products,
+.suggest-title.products{
+  background-color: rgb(249, 44, 71);
+}
+.box-tag .tag.categories,
+.suggest-title.categories{
+  background-color: rgb(55, 102, 255);
+}
+.box-tag .tag.brands,
+.suggest-title.brands{
+  background-color: rgb(255, 166, 0);
+}
+.suggest-value{
+  position: relative;
+  display: block;
+  left: 10px;
+}

@@ -1,0 +1,17 @@
+- pipeline.id: logstash-categories
+  path.config: "/usr/share/logstash/pipeline/logstash-categories.conf"
+- pipeline.id: logstash-brand
+  path.config: "/usr/share/logstash/pipeline/logstash-brand.conf"
+
+- pipeline.id: logstash-product
+  path.config: "/usr/share/logstash/pipeline/logstash-product.conf"
+- pipeline.id: logstash-product-specification
+  path.config: "/usr/share/logstash/pipeline/logstash-product-specification.conf"
+- pipeline.id: logstash-product-sku
+  path.config: "/usr/share/logstash/pipeline/logstash-product-sku.conf"
+# - pipeline.id: logstash-flashsale
+#   path.config: "/usr/share/logstash/pipeline/logstash-flashsale.conf"
+#   # config.string: input { stdin {} } output { pipeline { send_to => [logstashProductFlashSaleForwardByFlashsale] } }
+# - pipeline.id: logstash-product-flash-sale-forward-by-flashsale
+#   path.config: "/usr/share/logstash/pipeline/logstash-product-flash-sale-forward-by-flashsale.conf"
+#   config.string: input { pipeline { address => logstashProductFlashSaleForwardByFlashsale } }

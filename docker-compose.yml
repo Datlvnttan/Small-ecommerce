@@ -1,0 +1,189 @@
+version: '3.8'
+services:
+  # app:
+  #   build:
+  #     args:
+  #       user: lephatdat
+  #       uid: 1000
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: laravel-app
+  #   restart: unless-stopped
+  #   working_dir: /var/www/html/
+  #   # volumes:
+  #   #   - ./:/var/www/html/
+  #   networks:
+  #     - laravel_ecommerce
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8005:80
+  #   volumes:
+  #     - ./:/var/www/html
+  #     - ./nginx/conf.d:/etc/nginx/conf.d/
+  #   networks:
+  #     - laravel_ecommerce
+  # db:
+  #   image: mysql
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_DATABASE: ecommerce_new_3 
+  #     MYSQL_ROOT_PASSWORD: 123
+  #     MYSQL_USER: lephatdat
+  #     MYSQL_PASSWORD: 123
+  #   ports:
+  #     - "9906:3306"
+  #   networks:
+  #     - laravel_ecommerce
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   ports:
+  #     - "9090:80"
+  #   environment:
+  #     PMA_HOST: db
+  #     PMA_PORT: 3306
+  #   networks:
+  #     - laravel_ecommerce
+
+
+#elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=elasticsearch-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+      - xpack.security.enabled=${ELASTICSEARCH_IS_AUTHENTICATION}
+      - xpack.security.enrollment.enabled=${ELASTICSEARCH_IS_AUTHENTICATION}
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elastic
+    ports:
+      - "${ELASTICSEARCH_PORT}:9200"  # Cổng truy cập Elasticsearch
+      - "9300:9300"  # Cổng kết nối nội bộ của Elasticsearch
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:8.14.3
+  #   container_name: kibana
+  #   environment:
+  #     - SERVER_NAME=kibana
+  #     - ELASTICSEARCH_HOSTS="${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+  #   networks:
+  #     - elastic
+  #   ports:
+  #     - "5601:5601"  # Cổng truy cập Kibana
+  #   depends_on:
+  #     - elasticsearch
+  logstash:
+    # image: docker.elastic.co/logstash/logstash:8.14.3
+    container_name: logstash
+    build:
+      context: .
+      dockerfile: Dockerfile-logstash
+    volumes:
+      - ./docker/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./docker/logstash/config/scripts:/usr/share/logstash/config/scripts
+      - ./docker/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+    ports:
+      - 5044:5044
+    networks:
+      - elastic
+  zookeeper:
+    image: quay.io/debezium/zookeeper:latest
+    container_name: zookeeper
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888 
+    # restart: always
+    networks:
+      - elastic
+  kafka:
+    image: quay.io/debezium/kafka:latest #confluentinc/cp-kafka:latest
+    container_name: kafka
+    environment:
+      # KAFKA_BROKER_ID: 1
+      ZOOKEEPER_CONNECT: zookeeper:2181
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      # KAFKA_LISTENERS: PLAINTEXT://:9092
+      # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # KAFKA_ALLOW_PLAINTEXT_LISTENER: yes
+    ports:
+      - "9092:9092"
+    networks:
+      - elastic
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    ports:
+      - "9089:8080"
+    networks:
+      - elastic
+  connect:
+    image: quay.io/debezium/connect:latest
+    container_name: kafka-connect
+    ports:
+      - "8083:8083"
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_connect_statuses
+      # KEY_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
+      # VALUE_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
+      # CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      # OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      # STATUS_STORAGE_REPLICATION_FACTOR: 1
+      # CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      # CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+    volumes:
+      - .docker/kafka-connect/mysql-connector.json:/etc/kafka/connect/mysql-connector.json
+    networks:
+      - elastic
+    # command:
+    #   - sh
+    #   - -c
+    #   - |
+    #     /docker-entrypoint.sh & sleep 20;
+    #     curl -X POST -H "Content-Type: application/json" http://localhost:8083/connectors -d @/etc/kafka/connect/mysql-connector.json 
+    #     wait
+
+#Docker Networks
+networks:
+  laravel_ecommerce:
+    driver: bridge
+  elastic:
+    driver: bridge
+
+
+# docker run --name elt --net elastic -p 9200:9200 -it -m 1GB docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+# docker run --name kbn --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.4.3
+#trong my.ini:
+# [mysqld]
+  # bind-address = 0.0.0.0
+  # binlog_format = ROW
+  # log-bin=mysql-bin
+  # server-id=1
+# Chạy lệnh này trên mysql: GRANT ALL PRIVILEGES ON ecommerce_new_excel.* TO 'root'@'%' IDENTIFIED BY ''; FLUSH PRIVILEGES;
+# sql: SET GLOBAL binlog_format = 'ROW';
+#sql: GRANT REPLICATION CLIENT ON *.* TO 'root'@'%'; FLUSH PRIVILEGES;
+#sql: GRANT SUPER ON *.* TO 'root'@'%'; FLUSH PRIVILEGES;
+#sql: GRANT RELOAD ON *.* TO 'root'@'%'; FLUSH PRIVILEGES;
+#sql: GRANT REPLICATION SLAVE ON *.* TO 'root'@'%'; FLUSH PRIVILEGES;
+
+
+

@@ -1,0 +1,11 @@
+.box-validation {
+  position: relative;
+  height: 20px !important;
+}
+
+.validation {
+  position: absolute;
+  top: 0;
+  color: red;
+  font-size: 12px;
+}

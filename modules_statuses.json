@@ -1,0 +1,16 @@
+{
+    "Auth": true,
+    "User": true,
+    "Mailer": true,
+    "Product": true,
+    "Cart": true,
+    "Shipping": true,
+    "Order": true,
+    "Content": true,
+    "Main": true,
+    "External": true,
+    "Payment": true,
+    "AddressRequest": true,
+    "Elastic": true,
+    "Seller": true
+}

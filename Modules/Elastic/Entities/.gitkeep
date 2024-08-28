@@ -1,0 +1,97 @@
+{
+    "index": "sellers",
+    "body": {
+        "query": {
+            "function_score": {
+                "query": {
+                    "bool": {
+                        "must": [
+                            {
+                                "nested": {
+                                    "path": "products.skus",
+                                    "query": {
+                                        "bool": {
+                                            "must": [
+                                                {
+                                                    "match": {
+                                                        "products.skus.default": true
+                                                    }
+                                                },
+                                                {
+                                                    "range": {
+                                                        "products.skus.member_wholesale_discount": {
+                                                            "gt": 0
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "nested": {
+                                    "path": "products.product_flash_sale_active",
+                                    "query": {
+                                        "bool": {
+                                            "must": [
+                                                {
+                                                    "range": {
+                                                        "products.product_flash_sale_active.start_time": {
+                                                            "lte": "now"
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "range": {
+                                                        "products.product_flash_sale_active.end_time": {
+                                                            "gt": "now"
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "range": {
+                                                        "products.product_flash_sale_active.discount": {
+                                                            "gt": 0
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "script_score": {
+                    "script": {
+                        "source": """
+                            double discount = 0;
+                            double originalPrice = 0;
+                            long now = new Date().getTime();
+                            if (doc['products.skus.member_wholesale_discount'].size() > 0) {
+                                discount = doc['products.skus.member_wholesale_discount'].value;
+                            }
+                            if (doc['products.skus.member_wholesale_price'].size() > 0) {
+                                originalPrice = doc['products.skus.member_wholesale_price'].value;
+                            }
+                            double flashSaleDiscount = 0;
+                            if (doc['products.product_flash_sale_active'].size() > 0) {
+                                long startTime = doc['products.product_flash_sale_active.start_time'].value.toInstant().toEpochMilli();
+                                long endTime = doc['products.product_flash_sale_active.end_time'].value.toInstant().toEpochMilli();
+                                if (startTime <= now && endTime > now) {
+                                    flashSaleDiscount = doc['products.product_flash_sale_active.discount'].value;
+                                    discount = Math.min(discount + flashSaleDiscount, 1.0);
+                                }
+                            }
+                            double calculatedValue = originalPrice * (1 - discount);
+                            return (calculatedValue >= 300 && calculatedValue <= 3466) ? _score : 0;
+                        """,
+                        "lang": "painless"
+                    }
+                }
+            }
+        }
+    }
+}

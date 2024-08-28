@@ -1,0 +1,23 @@
+# Sử dụng hình ảnh Logstash chính thức
+FROM docker.elastic.co/logstash/logstash:8.14.3
+
+# # Đặt biến môi trường để không tự động khởi chạy pipeline kiểm tra (nếu cần)
+# ENV LOGSTASH_SETTING=logstash.yml
+
+# # Tạo thư mục cho JDBC drivers nếu chưa có
+# RUN mkdir -p /usr/share/logstash/drivers
+
+# RUN curl -L -o /usr/share/logstash/drivers/mysql-connector-java-8.0.23.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.32/mysql-connector-java-8.0.32.jar
+# RUN chmod 644 /usr/share/logstash/drivers/mysql-connector-java-8.0.23.jar
+
+# # Sao chép file cấu hình Logstash vào container
+# COPY logstash-flashsale.conf /usr/share/logstash/pipeline/
+
+# Tải xuống driver JDBC
+ADD https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.28.tar.gz /tmp/
+
+USER root
+
+RUN chmod 644 /tmp/mysql-connector-java-8.0.28.tar.gz \
+    && tar -xvf /tmp/mysql-connector-java-8.0.28.tar.gz -C /usr/share/logstash/logstash-core/lib/jars/ \
+    && rm /tmp/mysql-connector-java-8.0.28.tar.gz

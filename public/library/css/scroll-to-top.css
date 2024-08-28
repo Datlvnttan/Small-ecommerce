@@ -1,0 +1,46 @@
+
+/* Scroll top button */
+#toTop {
+    position: fixed;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    bottom: 25px;
+    margin: 0 25px 0 0;
+    z-index: 999;
+    transition: 0.35s;
+    transform: scale(0.7);
+    width: 46px;
+    height: 46px;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 1;
+    transition: all 0.3s;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24px;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+  }
+  #toTop.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+  #toTop:after {
+    font-family: "themify";
+    content: "\e648";
+    position: relative;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  #toTop:hover {
+    background-color: #004dda;
+  }
+  
+  .modal-content {
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 25px;
+  }

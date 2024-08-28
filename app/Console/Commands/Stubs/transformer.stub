@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use League\Fractal\TransformerAbstract;
+{{ useModel }}
+
+class {{ class }} extends TransformerAbstract
+{
+    public function transform({{ model }}${{ item }})
+    {
+        return [
+            // 
+        ];
+    }
+}

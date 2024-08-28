@@ -1,0 +1,119 @@
+.box-address {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.item-address {
+    position: relative;
+    padding: 10px 20px;
+    padding-bottom: 30px;
+    width: 500px;
+    border: 2px dashed #004e6d;
+    border-radius: 5px;
+    z-index: 3;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    color: var(--dark);
+    background-color: var(--light);
+}
+
+.item-address-recipient-name {
+    font-size: 19px;
+    color: var(--warning);
+}
+
+.item-address-phone-number {
+    font-weight: 700;
+}
+
+.item-address-country {
+    font-weight: 500;
+}
+
+.item-address-detail {
+    color: #aaaaaa;
+}
+
+.item-address-zip-code {
+    color: #aaaaaa;
+    font-style: italic;
+}
+
+.item-address-default {
+    position: absolute;
+    background-color: crimson;
+    padding: 5px 20px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 5px;
+    color: var(--light);
+    top: -15px;
+    right: -2px;
+    width: 120px;
+    text-align: center;
+}
+
+.item-address-btn-update {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.item-address-btn-update a,
+.item-address-btn-update button {
+    width: 100px;
+    padding: 5px;
+}
+
+.item-address-btn {
+    position: relative;
+    min-height: 50px;
+}
+
+.box-btn-set-default {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    background-color: var(--warning);
+    border: 1px dashed #004a6d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0px;
+    color: black;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    z-index: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.item-address:hover .box-btn-set-default {
+    opacity: 1;
+}
+
+.box-btn-set-default:hover {
+    color: red;
+}
+h4{
+    color: var(--dark);
+}
+.report{
+    cursor: pointer;
+}
+/* .item-address{
+        background-color: #fff;
+    } */

@@ -1,0 +1,11 @@
+{
+    "name": "External",
+    "alias": "external",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\External\\Providers\\ExternalServiceProvider"
+    ],
+    "files": []
+}
